@@ -58,7 +58,7 @@ export async function getOrders(
     // Let's assume `res.data` corresponds to the object containing orders and pages.
 
     return {
-      data: res.data.orders,
+      data: res.data.orders || res.data.order || [],
       pages: res.data.pages,
       total: res.data.total,
     };
