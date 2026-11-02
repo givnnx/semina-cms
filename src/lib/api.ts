@@ -1,6 +1,9 @@
 import { cookies } from "next/headers";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_HOST_DEV;
+const BASE_URL =
+  process.env.API_INTERNAL_URL ||
+  process.env.NEXT_PUBLIC_API_HOST_DEV ||
+  "http://localhost:9000/api";
 
 interface FetchOptions extends RequestInit {
   headers?: Record<string, string>;
@@ -45,7 +48,7 @@ export async function fetchData(endpoint: string, options: FetchOptions = {}) {
 
 export async function postData(
   endpoint: string,
-  body: any,
+  body: unknown,
   isFormData = false,
 ) {
   const authHeader = await getAuthHeader();
@@ -60,7 +63,7 @@ export async function postData(
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     method: "POST",
     headers,
-    body: isFormData ? body : JSON.stringify(body),
+    body: isFormData ? (body as BodyInit) : JSON.stringify(body),
   });
 
   let data;
@@ -78,7 +81,7 @@ export async function postData(
   return data;
 }
 
-export async function putData(endpoint: string, body: any, isFormData = false) {
+export async function putData(endpoint: string, body: unknown, isFormData = false) {
   const authHeader = await getAuthHeader();
   const headers: Record<string, string> = { ...authHeader };
 
@@ -89,7 +92,7 @@ export async function putData(endpoint: string, body: any, isFormData = false) {
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     method: "PUT",
     headers,
-    body: isFormData ? body : JSON.stringify(body),
+    body: isFormData ? (body as BodyInit) : JSON.stringify(body),
   });
 
   let data;

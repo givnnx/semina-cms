@@ -38,7 +38,10 @@ export default function CategoryForm({
       <CardContent>
         <form action={formAction} className="space-y-4">
           {state?.message && !state.success && (
-            <div className="p-3 rounded-md text-sm bg-red-100 text-red-700">
+            <div
+              role="alert"
+              className="p-3 rounded-md text-sm font-medium bg-alert-danger-bg text-destructive border border-alert-danger-border"
+            >
               {state.message}
             </div>
           )}

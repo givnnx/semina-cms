@@ -40,11 +40,9 @@ export default function TalentForm({
   );
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Mock preview
     const file = e.target.files?.[0];
     if (file) {
-      // In real app execute FileReader
-      setImagePreview("https://placehold.co/100"); // Mock
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -56,7 +54,10 @@ export default function TalentForm({
       <CardContent>
         <form action={formAction} className="space-y-4">
           {state?.message && !state.success && (
-            <div className="p-3 rounded-md text-sm bg-red-100 text-red-700">
+            <div
+              role="alert"
+              className="p-3 rounded-md text-sm font-medium bg-alert-danger-bg text-destructive border border-alert-danger-border"
+            >
               {state.message}
             </div>
           )}
@@ -99,10 +100,10 @@ export default function TalentForm({
               )}
               <Input
                 type="file"
+                name="image"
                 accept="image/*"
                 onChange={handleImageChange}
                 disabled={isPending}
-                // name="image" -> in real app
               />
               {/* Hidden input to pass mock image identifier to server action */}
               <input

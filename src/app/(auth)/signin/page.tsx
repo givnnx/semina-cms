@@ -18,7 +18,7 @@ export default function SigninPage() {
   });
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-gray-50">
+    <div className="flex h-screen w-full items-center justify-center bg-background text-foreground">
       <Card className="w-full max-w-md mx-4">
         <CardHeader className="text-center">
           <CardTitle>Sign In</CardTitle>
@@ -27,7 +27,12 @@ export default function SigninPage() {
           <form action={action} className="space-y-4">
             {state?.message && (
               <div
-                className={`p-3 rounded-md text-sm ${state.success ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+                role="alert"
+                className={`p-3 rounded-md text-sm font-medium border ${
+                  state.success
+                    ? "bg-alert-success-bg text-success border-alert-success-border"
+                    : "bg-alert-danger-bg text-destructive border-alert-danger-border"
+                }`}
               >
                 {state.message}
               </div>

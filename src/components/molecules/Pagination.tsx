@@ -25,23 +25,40 @@ export function Pagination({
     return params.toString();
   };
 
+  const linkButtonClasses =
+    "inline-flex items-center justify-center rounded-md font-medium text-xs h-8 px-3 transition-colors border border-input-border bg-surface hover:bg-muted-bg text-foreground cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+
   return (
     <div className="flex items-center justify-center space-x-2 mt-4">
-      <Button variant="outline" size="sm" disabled={currentPage <= 1}>
-        <Link href={`${baseUrl}?${createQueryString(currentPage - 1)}`}>
+      {currentPage <= 1 ? (
+        <Button variant="outline" size="sm" disabled>
+          Previous
+        </Button>
+      ) : (
+        <Link
+          href={`${baseUrl}?${createQueryString(currentPage - 1)}`}
+          className={linkButtonClasses}
+        >
           Previous
         </Link>
-      </Button>
+      )}
 
-      <span className="text-sm text-gray-600">
+      <span className="text-sm font-medium text-muted">
         Page {currentPage} of {totalPages}
       </span>
 
-      <Button variant="outline" size="sm" disabled={currentPage >= totalPages}>
-        <Link href={`${baseUrl}?${createQueryString(currentPage + 1)}`}>
+      {currentPage >= totalPages ? (
+        <Button variant="outline" size="sm" disabled>
+          Next
+        </Button>
+      ) : (
+        <Link
+          href={`${baseUrl}?${createQueryString(currentPage + 1)}`}
+          className={linkButtonClasses}
+        >
           Next
         </Link>
-      </Button>
+      )}
     </div>
   );
 }

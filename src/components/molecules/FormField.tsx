@@ -9,16 +9,34 @@ interface FormFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
   ({ className, label, error, id, ...props }, ref) => {
+    const reactId = React.useId();
+    const fieldId = id || reactId;
+    const hasError = Boolean(error && error.length > 0);
+
     return (
       <div className={cn("space-y-2", className)}>
         <label
-          htmlFor={id}
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          htmlFor={fieldId}
+          className="text-sm font-medium leading-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           {label}
         </label>
-        <Input id={id} ref={ref} {...props} />
-        {error && <p className="text-sm text-red-500">{error[0]}</p>}
+        <Input
+          id={fieldId}
+          ref={ref}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? `${fieldId}-error` : undefined}
+          {...props}
+        />
+        {hasError && (
+          <p
+            id={`${fieldId}-error`}
+            role="alert"
+            className="text-sm font-medium text-destructive"
+          >
+            {error![0]}
+          </p>
+        )}
       </div>
     );
   },

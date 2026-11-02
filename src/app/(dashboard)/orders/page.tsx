@@ -53,9 +53,12 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
             </div>
             <Button type="submit">Filter</Button>
             {(startDate || endDate) && (
-              <Button variant="outline">
-                <Link href="/orders">Reset</Link>
-              </Button>
+              <Link
+                href="/orders"
+                className="inline-flex items-center justify-center rounded-md font-medium text-sm h-10 px-4 py-2 border border-input-border bg-surface hover:bg-muted-bg text-foreground transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                Reset
+              </Link>
             )}
           </form>
         </CardContent>
@@ -67,22 +70,22 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
             <table className="w-full caption-bottom text-sm text-left">
               <thead className="[&_tr]:border-b">
                 <tr className="border-b hover:bg-muted/50">
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Name
                   </th>
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Email
                   </th>
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Event Title
                   </th>
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Event Date
                   </th>
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Order Date
                   </th>
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Venue
                   </th>
                 </tr>
@@ -92,7 +95,7 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
                   orders.map((order) => (
                     <tr
                       key={order._id}
-                      className="border-b transition-colors hover:bg-gray-50"
+                      className="border-b border-border transition-colors hover:bg-muted-bg"
                     >
                       <td className="p-4 align-middle">
                         {order.personalDetail.firstName}{" "}
@@ -117,8 +120,8 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="p-4 text-center text-gray-500">
-                      No orders found.
+                    <td colSpan={6} className="p-8 text-center text-muted">
+                      No orders found matching the criteria.
                     </td>
                   </tr>
                 )}

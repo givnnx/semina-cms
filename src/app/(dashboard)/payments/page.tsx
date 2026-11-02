@@ -16,8 +16,11 @@ export default async function PaymentsPage() {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Payments</h1>
-        <Link href="/payments/create">
-          <Button>Add Payment</Button>
+        <Link
+          href="/payments/create"
+          className="inline-flex items-center justify-center rounded-md font-medium text-sm h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary-hover shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          Add Payment
         </Link>
       </div>
 
@@ -30,13 +33,13 @@ export default async function PaymentsPage() {
             <table className="w-full caption-bottom text-sm text-left">
               <thead className="[&_tr]:border-b">
                 <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Type
                   </th>
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  <th className="h-12 px-4 align-middle font-medium text-muted">
                     Avatar
                   </th>
-                  <th className="h-12 px-4 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 text-right">
+                  <th className="h-12 px-4 align-middle font-medium text-muted text-right">
                     Action
                   </th>
                 </tr>
@@ -46,7 +49,7 @@ export default async function PaymentsPage() {
                   payments.map((payment) => (
                     <tr
                       key={payment._id}
-                      className="border-b transition-colors hover:bg-gray-50"
+                      className="border-b border-border transition-colors hover:bg-muted-bg"
                     >
                       <td className="p-4 align-middle">{payment.type}</td>
                       <td className="p-4 align-middle">
@@ -58,14 +61,11 @@ export default async function PaymentsPage() {
                         />
                       </td>
                       <td className="p-4 align-middle text-right space-x-2">
-                        <Link href={`/payments/${payment._id}/edit`}>
-                          <Button
-                            size="sm"
-                            variant="primary"
-                            className="bg-green-600 hover:bg-green-700"
-                          >
-                            Edit
-                          </Button>
+                        <Link
+                          href={`/payments/${payment._id}/edit`}
+                          className="inline-flex items-center justify-center rounded-md font-medium text-xs h-8 px-3 bg-success text-success-foreground hover:bg-success-hover shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                        >
+                          Edit
                         </Link>
 
                         <DeleteButton
@@ -77,8 +77,14 @@ export default async function PaymentsPage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={3} className="p-4 text-center text-gray-500">
-                      No payments found.
+                    <td colSpan={3} className="p-8 text-center text-muted">
+                      No payment methods have been added yet.{" "}
+                      <Link
+                        href="/payments/create"
+                        className="text-primary hover:underline font-medium ml-1"
+                      >
+                        Add your first payment method
+                      </Link>
                     </td>
                   </tr>
                 )}

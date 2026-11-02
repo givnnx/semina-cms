@@ -23,12 +23,34 @@ export async function signinAction(prevState: ActionState, formData: FormData) {
     // Assuming response structure: { data: { token: string, role: string } }
     const { token, role } = res.data;
 
+    const isProd = process.env.NODE_ENV === "production";
     const cookieStore = await cookies();
-    cookieStore.set("token", token, { httpOnly: true, path: "/" });
-    cookieStore.set("role", role, { httpOnly: true, path: "/" });
-  } catch (error: any) {
-    return { success: false, message: error.message || "Invalid credentials" };
+    cookieStore.set("token", token, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 2,
+    });
+    cookieStore.set("role", role, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 2,
+    });
+  } catch (error: unknown) {
+    const msg =
+      error instanceof Error ? error.message : "Invalid credentials";
+    return { success: false, message: msg };
   }
 
   redirect("/");
+}
+
+export async function logoutAction() {
+  const cookieStore = await cookies();
+  cookieStore.delete("token");
+  cookieStore.delete("role");
+  redirect("/signin");
 }

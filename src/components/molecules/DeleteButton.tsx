@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Button } from "@/components/atoms/Button";
-import { ActionState } from "@/app/(dashboard)/categories/actions"; // Or a shared type
+import { ActionState } from "@/app/(dashboard)/categories/actions";
 
 interface DeleteButtonProps {
   action: (id: string) => Promise<ActionState>;
@@ -22,18 +22,49 @@ export function DeleteButton({ action, id }: DeleteButtonProps) {
     return await action(id);
   };
 
+  const [confirming, setConfirming] = useState(false);
   const [state, formAction, isPending] = useActionState(deleteActionWrapper, {
     success: false,
     message: "",
   });
 
+  if (!confirming) {
+    return (
+      <Button
+        type="button"
+        size="sm"
+        variant="danger"
+        onClick={() => setConfirming(true)}
+      >
+        Delete
+      </Button>
+    );
+  }
+
   return (
-    <form action={formAction} className="inline-block">
+    <form
+      action={formAction}
+      className="inline-flex items-center gap-1"
+      onKeyDown={(e) => {
+        if (e.key === "Escape") setConfirming(false);
+      }}
+    >
       <Button size="sm" variant="danger" disabled={isPending}>
-        {isPending ? "Deleting..." : "Delete"}
+        {isPending ? "Deleting..." : "Confirm Delete"}
+      </Button>
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        onClick={() => setConfirming(false)}
+        disabled={isPending}
+      >
+        Cancel
       </Button>
       {state?.message && !state.success && (
-        <span className="text-xs text-red-500 ml-2">{state.message}</span>
+        <span className="text-xs font-medium text-destructive ml-1">
+          {state.message}
+        </span>
       )}
     </form>
   );
